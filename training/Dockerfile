@@ -2,7 +2,8 @@
 # Build: docker build -f training/Dockerfile -t REGION-docker.pkg.dev/PROJECT/jarvis/train:tag .
 # Surcharges utiles: --build-arg MEGATRON_REF=core_r0.12.0 --build-arg PY_ENV=pytorch_24.01
 
-FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
+# 2.2.x images ship Python 3.10; pyproject requires >=3.11. 2.4.x cuda12.1 runtime uses Python 3.11.
+FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime
 
 RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
