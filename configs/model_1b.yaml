@@ -1,0 +1,26 @@
+# Profile ~1B parameters — local / single-GPU smoke test.
+name: jarvis-1b
+architecture: gpt_decoder
+hidden_size: 2048
+num_layers: 24
+num_attention_heads: 16
+intermediate_size: 8192
+vocab_size: 50257
+max_position_embeddings: 2048
+tie_word_embeddings: true
+
+training:
+  global_batch_size: 256
+  micro_batch_size: 4
+  sequence_length: 2048
+  train_steps: 100000
+  lr: 3.0e-4
+  min_lr: 3.0e-5
+  warmup_steps: 2000
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  fp16: true
+
+optimizer: adamw

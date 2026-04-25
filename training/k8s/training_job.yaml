@@ -1,0 +1,31 @@
+# Example skeleton — fill image, volumes for GCS FUSE or gcsfuse sidecar, and resource requests.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jarvis-train
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: train
+          image: gcr.io/PROJECT/jarvis-train:latest
+          command: ["torchrun"]
+          args:
+            - "--nproc_per_node=8"
+            - "training/train_tiny_gpt.py"
+            - "--data=/data/shard_00000.txt"
+            - "--ckpt-dir=/ckpt"
+          resources:
+            limits:
+              nvidia.com/gpu: "8"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: ckpt
+              mountPath: /ckpt
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: ckpt
+          emptyDir: {}

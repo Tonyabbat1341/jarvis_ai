@@ -1,0 +1,6 @@
+# Copy to gcs.yaml (gitignored) and set project values.
+project_id: "your-gcp-project"
+region: "us-central1"
+bucket_data: "gs://jarvis-data-your-id"
+bucket_checkpoints: "gs://jarvis-ckpt-your-id"
+service_account_email: "jarvis-training@your-gcp-project.iam.gserviceaccount.com"

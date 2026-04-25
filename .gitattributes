@@ -1,0 +1,36 @@
+# Forcer LF pour tout ce qui est exécuté sous Linux/Cloud Shell.
+# Évite l'erreur "$'\r': command not found" / "set: pipefail" quand on
+# upload/unzip le projet depuis Windows vers Cloud Shell.
+
+*.sh        text eol=lf
+*.bash      text eol=lf
+*.yaml      text eol=lf
+*.yml       text eol=lf
+Dockerfile  text eol=lf
+Makefile    text eol=lf
+
+# Python et configs : LF aussi, pour éviter les surprises multi-OS.
+*.py        text eol=lf
+*.toml      text eol=lf
+*.cfg       text eol=lf
+*.ini       text eol=lf
+*.json      text eol=lf
+
+# Fichiers batch Windows : CRLF.
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+*.ps1       text eol=crlf
+
+# Binaires : pas de conversion.
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.pdf       binary
+*.zip       binary
+*.gz        binary
+*.tar       binary
+*.pt        binary
+*.bin       binary
+*.safetensors binary

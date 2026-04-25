@@ -1,0 +1,18 @@
+# Build de l'image d'entraînement Jarvis (Dockerfile dans training/).
+# Depuis la racine du dépôt jarvis_ai :
+#   export REGION=us-central1
+#   export PROJECT_ID=votre-projet
+#   export IMAGE_TAG="${REGION}-docker.pkg.dev/${PROJECT_ID}/jarvis/train:jarvis-mini-$(date +%Y%m%d)"
+#   gcloud builds submit . --config=infra/gcp/cloudbuild_jarvis_train.yaml --substitutions=_IMAGE_URI="${IMAGE_TAG}"
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'training/Dockerfile'
+      - '-t'
+      - '${_IMAGE_URI}'
+      - '.'
+images:
+  - '${_IMAGE_URI}'
+timeout: 3600s

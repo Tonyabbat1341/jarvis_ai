@@ -1,0 +1,4 @@
+project_id       = "your-gcp-project"
+region           = "us-central1"
+bucket_data_name = "jarvis-data-unique-id"
+bucket_ckpt_name = "jarvis-ckpt-unique-id"

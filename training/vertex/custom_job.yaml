@@ -1,0 +1,30 @@
+# CustomJobSpec pour : gcloud ai custom-jobs create --project=... --region=... \
+#   --display-name=jarvis-mini-training --config=training/vertex/custom_job.yaml
+# (--display-name est obligatoire en CLI ; le fichier ne contient que jobSpec / CustomJobSpec.)
+#
+# Remplace PROJECT_ID, le tag d’image, et les URIs gs://…
+# Le dépôt utilise surtout training/launch_vertex.sh pour éviter de maintenir ce YAML à la main.
+
+workerPoolSpecs:
+  - machineSpec:
+      machineType: a2-highgpu-1g
+      acceleratorType: NVIDIA_TESLA_A100
+      acceleratorCount: 8
+    replicaCount: 1
+    diskSpec:
+      bootDiskType: pd-ssd
+      bootDiskSizeGb: 500
+    containerSpec:
+      imageUri: us-central1-docker.pkg.dev/PROJECT_ID/jarvis/train:jarvis-mini-TAG
+      command: ["bash", "-c"]
+      args:
+        - |
+          export DATA_PATH='gs://VOTRE_BUCKET_DATA/jarvis/megatron_data'
+          export CHECKPOINT_DIR='gs://VOTRE_BUCKET_CKPT/jarvis/runs/mini-1'
+          export MODEL_CONFIG='/workspace/jarvis/configs/model_jarvis_mini_1_0.yaml'
+          export TENSOR_MODEL_PARALLEL_SIZE='2'
+          export PIPELINE_MODEL_PARALLEL_SIZE='1'
+          export NPROC_PER_NODE='8'
+          export MEGATRON_ROOT='/workspace/Megatron-LM'
+          export JARVIS_ROOT='/workspace/jarvis'
+          cd /workspace/Megatron-LM && bash ../jarvis/training/megatron/run_pretrain.sh
