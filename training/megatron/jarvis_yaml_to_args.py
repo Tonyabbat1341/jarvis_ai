@@ -34,6 +34,9 @@ def jarvis_config_to_megatron_tokens(cfg: dict[str, Any]) -> list[str]:
     _append_flag(tokens, "--micro-batch-size", t["micro_batch_size"])
     _append_flag(tokens, "--global-batch-size", t["global_batch_size"])
     _append_flag(tokens, "--train-iters", t["train_steps"])
+    # Megatron requires save interval when --save/--load are provided.
+    # Default to a safe periodic checkpoint cadence if not explicitly set.
+    _append_flag(tokens, "--save-interval", t.get("save_interval", 100))
     _append_flag(tokens, "--lr", t["lr"])
     _append_flag(tokens, "--min-lr", t["min_lr"])
     _append_flag(tokens, "--lr-warmup-iters", t["warmup_steps"])
